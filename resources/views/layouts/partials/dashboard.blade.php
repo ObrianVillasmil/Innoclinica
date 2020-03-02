@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="{{asset('js/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css')}}">
         <!-- theme stylesheet-->
         <link rel="stylesheet" href="{{asset('css/style.default.css')}}" id="theme-stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
         <!-- chart-->
         <link rel="stylesheet" href="{{asset('css/Chart.css')}}">
         <!-- Custom stylesheet - for your changes-->
