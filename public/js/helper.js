@@ -67,7 +67,8 @@ function peticion_ajax(data,url,metodo,r) {
                 reload = false;
                 $.dialog({
                     title: titulo,
-                    content: response.msg
+                    content: response.msg,
+                    columnClass: 'medium'
                 });
             }
             if(r !== undefined) reload = false;
