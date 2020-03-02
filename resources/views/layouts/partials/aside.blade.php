@@ -3,7 +3,7 @@
         <div class="sidenav-header d-flex align-items-center justify-content-center">
             <div class="sidenav-header-inner text-center">
                 @if(isset(getConfiguracionEmpresa()->logo_empresa))
-                    <a href="{{url('')}}"><img src="storage/{{getConfiguracionEmpresa()->logo_empresa}}"></a>
+                    <a href="{{url('')}}"><img src="/storage/{{getConfiguracionEmpresa()->logo_empresa}}"></a>
                 @else
                     <i class="fa fa-user-circle" style="font-size: 50px" aria-hidden="true"></i>
                 @endif

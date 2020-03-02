@@ -67,7 +67,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="pais">País</label>
                                                 <select class="form-control" id="pais" name="pais">
@@ -77,10 +77,17 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="ruc">Ruc</label>
                                                 <input type="text" class="form-control" id="ruc" name="ruc" value="{{isset($configuracionEmpresa->ruc_empresa) ? $configuracionEmpresa->ruc_empresa : ""}}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="correo_empresa">Correo</label>
+                                                <input type="email" class="form-control" id="correo_empresa" name="correo_empresa"
+                                                       value="{{isset($configuracionEmpresa->correo_empresa) ? $configuracionEmpresa->correo_empresa : ""}}" required>
                                             </div>
                                         </div>
                                     </div>

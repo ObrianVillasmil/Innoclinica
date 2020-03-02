@@ -48,6 +48,7 @@ class EmpresaController extends Controller
             $objDatosEmpresa->pais = $request->pais;
             $objDatosEmpresa->ruc_empresa = $request->ruc;
             $objDatosEmpresa->direccion_empresa = $request->direccion;
+            $objDatosEmpresa->correo_empresa = $request->correo_empresa;
 
             if ($objDatosEmpresa->save()) {
                 $model = Empresa::all()->last();

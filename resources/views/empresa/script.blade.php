@@ -12,6 +12,7 @@
                 pais: $("#pais").val(),
                 ruc: $("#ruc").val(),
                 direccion: $("#direccion").val(),
+                correo_empresa : $("#correo_empresa").val()
             };
             peticion_ajax(data, '{{url('empresa/actualizar_datos_empresa')}}', 'POST');
         }
