@@ -65,7 +65,7 @@ function peticion_ajax(data,url,metodo,r) {
             }else{
                 titulo = "<i class='fa fa-exclamation-triangle text-danger' aria-hidden='true'></i> <span class='text-danger'>Hubo un error al realizar la acción</span>";
                 reload = false;
-                $.alert({
+                $.dialog({
                     title: titulo,
                     content: response.msg
                 });
