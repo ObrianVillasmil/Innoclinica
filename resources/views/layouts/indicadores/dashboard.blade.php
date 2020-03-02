@@ -118,11 +118,13 @@
                             </div>
                         </a>
                         <div class="text-success" style="margin-top: 10px">
-                            @if((getParty(session('party_id'))->party_role->role_type->role_type_id === "END_USER_CUSTOMER" || getParty(session('party_id'))->party_role->role_type->role_type_id === "ADMIN" || getParty(session('party_id'))->party_role->role_type->role_type_id == "REPRESENTANTE_LEGAL") &&  getTratamientoSolicitado($t->id_tratamiento,session('party_id')) != null)
-                                <i class="fa fa-check-square-o"></i> Solicitado
-                            @endif
-                            @if(getParty(session('party_id'))->party_role->role_type->role_type_id === "MEDICO_USUARIO")
-                                Solicitado por {{getParty($t->party_id)->person->first_name ." ". getParty($t->party_id)->person->last_name}}
+                            @if(isset($usuario->party_role))
+                                @if($usuario->party_role->role_type->role_type_id === "END_USER_CUSTOMER" || $usuario->party_role->role_type->role_type_id === "ADMIN" || getParty(session('party_id'))->party_role->role_type->role_type_id == "REPRESENTANTE_LEGAL") &&  getTratamientoSolicitado($t->id_tratamiento,session('party_id')) != null)
+                                    <i class="fa fa-check-square-o"></i> Solicitado
+                                @endif
+                                @if(getParty(session('party_id'))->party_role->role_type->role_type_id === "MEDICO_USUARIO")
+                                    Solicitado por {{getParty($t->party_id)->person->first_name ." ". getParty($t->party_id)->person->last_name}}
+                                @endif
                             @endif
                         </div>
                     </div>
