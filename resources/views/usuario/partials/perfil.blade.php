@@ -26,12 +26,13 @@
                         <a class="list-group-item list-group-item-action" data-toggle="list" href="#password" role="tab">
                             <i class="fa fa-unlock-alt" ></i> Contraseña
                         </a>
+
                         @if(isset($user->party->party_role) && $user->party->party_role->role_type_id === "REPRESENTANTE_LEGAL")
                             <a class="list-group-item list-group-item-action " data-toggle="list" href="#paciente" role="tab">
                                 <i class="fa fa-user" ></i> Datos generales del paciente
                             </a>
                         @endif
-                        @if(count($rolesfirma) > 0 && in_array($u->party->party_role->role_type_id,$rolesfirma))
+                        @if(isset($u->party->party_role->role_type_id) && count($rolesfirma) > 0 && in_array($u->party->party_role->role_type_id,$rolesfirma))
                             <a class="list-group-item list-group-item-action" data-toggle="list" href="#firma_digital" role="tab">
                                 <i class="fa fa-pencil" ></i> Firma digital
                             </a>
