@@ -93,7 +93,7 @@
                                 <table style="width: 100%;">
                                     <tr>
                                         <td class="text-center" style="border: 1px solid black">
-                                            <img src="/{{getConfiguracionEmpresa()->logo_empresa}}" style="width: 60px;">
+                                            <img src="/stoage/{{getConfiguracionEmpresa()->logo_empresa}}" style="width: 60px;">
                                         </td>
                                         <td class="text-center">
                                             <table style="width: 100%" cellpadding="0" cellspacing="0">
