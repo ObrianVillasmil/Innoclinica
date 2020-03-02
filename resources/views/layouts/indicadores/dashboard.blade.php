@@ -106,7 +106,7 @@
 @else
     <div class="col-md-12">
         <div class="row">
-            @if(!isset($usuario->party_role))
+            @if(isset($usuario->party_role))
                 @if($tratamientos->count() > 0)
                     @foreach($tratamientos as $t)
                         @php
