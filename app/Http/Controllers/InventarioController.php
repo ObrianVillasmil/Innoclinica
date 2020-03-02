@@ -36,8 +36,6 @@ class InventarioController extends Controller
 
     public function exportarDistribucionMedicacion(){
 
-        dd("hola");
-
         $tratamientoSolicitados= TratamientoSolicitado::where('estado', 1)->get();
 
         Excel::create('Distribución medicación', function($excel) use ($tratamientoSolicitados){
