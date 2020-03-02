@@ -228,11 +228,7 @@ class TratamientoClienteController extends Controller
 
             if(isset($request->correo_doctor) && $request->correo_doctor!="undefined"){
                 $mensaje = "<div style='padding: 30px;background: #33b35a;color:white'>
-<<<<<<< HEAD
-                                Hola Dr. ".$request->doctor." su cliente ".getParty((int)session('party_id'))->person->first_name." ".getParty((int)session('party_id'))->person->last_name." ha solicitado un tratamiendo en ".getConfiguracionEmpresa()->nombre_empresa.", nuestro personal se contactará con usted los mas brevemente posible
-=======
                                 Hola Dr. ".$request->doctor." su cliente ".getParty((int)session('party_id'))->person->first_name." ".getParty((int)session('party_id'))->person->last_name." ha solicitado un tratamiendo en ".getConfiguracionEmpresa()->nombre_empresa.", nuestro contrataciones se contactará con usted los mas brevemente posible
->>>>>>> b33f1bba520636fe4938396469f8d02c7ff1f642
                             </div>";
 
                 Mail::to($request->correo_doctor)
@@ -243,11 +239,7 @@ class TratamientoClienteController extends Controller
                 mensajeTexto()->message()->send([
                     'to' => '593983537432',//'593'.$request->tlf_doctor
                     'from' => getConfiguracionEmpresa()->nombre_empresa,
-<<<<<<< HEAD
-                    'text' => "Hola Dr. ".$request->doctor." su paciente ".getParty((int)session('party_id'))->person->first_name." ".getParty((int)session('party_id'))->person->last_name." ha solicitado un tratamiendo en ".getConfiguracionEmpresa()->nombre_empresa.", nuestro personal se contactará con usted los mas brevemente posible"
-=======
                     'text' => "Hola Dr. ".$request->doctor." su paciente ".getParty((int)session('party_id'))->person->first_name." ".getParty((int)session('party_id'))->person->last_name." ha solicitado un tratamiendo en ".getConfiguracionEmpresa()->nombre_empresa.", nuestro contrataciones se contactará con usted los mas brevemente posible"
->>>>>>> b33f1bba520636fe4938396469f8d02c7ff1f642
                 ]);
             }
 
@@ -973,11 +965,7 @@ class TratamientoClienteController extends Controller
                     mensajeTexto()->message()->send([
                         'to' => '593983537432',//'593'.str_replace($str,"",$request->campo_tlf_1)
                         'from' => getConfiguracionEmpresa()->nombre_empresa,
-<<<<<<< HEAD
-                        'text' => "Hola Dr. ".$nombreDoctor." su paciente ".getParty(session('party_id'))->person->first_name." ".getParty(session('party_id'))->person->last_name." ha solicitado un tratamiendo en ".getConfiguracionEmpresa()->nombre_empresa.", nuestro personal se contactará con usted los mas brevemente posible"
-=======
                         'text' => "Hola Dr. ".$nombreDoctor." su paciente ".getParty(session('party_id'))->person->first_name." ".getParty(session('party_id'))->person->last_name." ha solicitado un tratamiendo en ".getConfiguracionEmpresa()->nombre_empresa.", nuestro contrataciones se contactará con usted los mas brevemente posible"
->>>>>>> b33f1bba520636fe4938396469f8d02c7ff1f642
                     ]);
 
                 }
