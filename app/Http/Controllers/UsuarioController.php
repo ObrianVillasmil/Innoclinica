@@ -634,7 +634,7 @@ class UsuarioController extends Controller
            'apellidos' => 'required',
            'telefono' => 'required',
            'direccion' => 'required',
-           'correo' => 'required|email',
+           'correo' => 'required|email|unique:user_login,email',
            'nacionalidad' => 'required',
            'tipo_identificacion' => 'required',
            'identificacion' => 'required',
@@ -643,7 +643,8 @@ class UsuarioController extends Controller
            'fecha_nacimiento' => 'required',
            'contrasena' => 'required|min:4|max:10',
            'rol' => 'required'
-       ]);
+       ],['correo.unique'=>'Ya existe un usuario registrado con el mismo correo, por favor ingrese otro']);
+
        $msg = '<div class="alert alert-danger" role="alert" style="margin: 0">
                       ha ocurrido un inconveniente al actualizar los datos, intente nuevamente.!
                 </div>';
