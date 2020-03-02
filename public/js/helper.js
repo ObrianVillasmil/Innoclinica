@@ -61,13 +61,17 @@ function peticion_ajax(data,url,metodo,r) {
             if(response.success){
                 titulo = "<i class='fa fa-check text-success' aria-hidden='true'></i> <span class='text-success'>Acción realizada exitosamente</span>";
                 reload = true;
+                modal('modal_success', response.msg,titulo ,true, '40%',reload);
             }else{
                 titulo = "<i class='fa fa-exclamation-triangle text-danger' aria-hidden='true'></i> <span class='text-danger'>Hubo un error al realizar la acción</span>";
                 reload = false;
+                $.alert({
+                    title: titulo,
+                    content: response.msg
+                });
             }
             if(r !== undefined) reload = false;
 
-            modal('modal_success', response.msg,titulo ,true, '40%',reload);
         }
     }).always(function () {
         load("hide");

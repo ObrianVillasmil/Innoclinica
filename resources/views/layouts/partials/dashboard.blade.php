@@ -69,6 +69,7 @@
         <script src="{{asset('js/helper.js')}}"></script>
         <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.9/push.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
         @yield('custom_page_js')
         <script>
