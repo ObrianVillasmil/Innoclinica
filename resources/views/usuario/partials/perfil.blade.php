@@ -332,7 +332,7 @@
                             </div>
                         </div>
                     </div>
-                    @if(count($rolesfirma) > 0 && in_array($u->party->party_role->role_type_id,$rolesfirma))
+                    @if(isset($u->party->party_role->role_type_id) && count($rolesfirma) > 0 && in_array($u->party->party_role->role_type_id,$rolesfirma))
 
                             <div class="tab-pane fade" id="firma_digital" role="tabpanel">
                                 <div class="card">
