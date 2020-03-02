@@ -349,8 +349,7 @@ class LoginController extends Controller
          'g-recaptcha-response.captcha' => 'El código ingresado es incorrecto.'
      ])->validate();
 
-     $usuario = UserLogin::where('email',$request->usuario)->get();
-     dd($usuario);
+     $usuario = UserLogin::where('email',$request->usuario)->first();
      if($usuario !== null){
          if($usuario->enabled === "Y"){
              if($usuario->current_password === "{SHA}".sha1($request->contrasena)){
