@@ -52,41 +52,41 @@
                                 @if($user->current_password !== null)
                                     @if(isset($user->party->party_role))
                                         @if($user->party->party_role->role_type->role_type_id !== "ADMIN")
-                                        <tr>
-                                            <td style="vertical-align: middle">{{$user->party->person->first_name}}</td>
-                                            <td style="vertical-align: middle">{{$user->party->person->last_name}}</td>
-                                            <td style="vertical-align: middle">
-                                                @foreach($user->party->party_contact_mech as $contact_mech)
-                                                    @if($contact_mech->contact_mech->contact_mech_type_id === "EMAIL_ADDRESS")
-                                                        <a style="text-decoration: none;" href="mailto:{{$contact_mech->contact_mech->info_string}}">
-                                                            {{$contact_mech->contact_mech->info_string}}
+                                            <tr>
+                                                <td style="vertical-align: middle">{{$user->party->person->first_name}}</td>
+                                                <td style="vertical-align: middle">{{$user->party->person->last_name}}</td>
+                                                <td style="vertical-align: middle">
+                                                    @foreach($user->party->party_contact_mech as $contact_mech)
+                                                        @if($contact_mech->contact_mech->contact_mech_type_id === "EMAIL_ADDRESS")
+                                                            <a style="text-decoration: none;" href="mailto:{{$contact_mech->contact_mech->info_string}}">
+                                                                {{$contact_mech->contact_mech->info_string}}
+                                                            </a>
+                                                        @endif
+                                                    @endforeach
+                                                </td>
+                                                <td style="vertical-align: middle">
+                                                    @foreach($user->party->party_contact_mech as $contact_mech)
+                                                        @if($contact_mech->contact_mech->contact_mech_type_id === "TELECOM_NUMBER")
+                                                            <a style="text-decoration: none;" href="tel:{{$contact_mech->contact_mech->telecom_number->contact_number}}">
+                                                                {{$contact_mech->contact_mech->telecom_number->contact_number}}
+                                                            </a>
+                                                        @endif
+                                                    @endforeach
+                                                </td>
+                                                <td style="vertical-align: middle">{{$user->party->party_role->role_type->description }}</td>
+                                                <td scope="row" style="vertical-align: middle">
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-sm btn-{{$user->enabled === "Y" ? "danger" : "success"}}" title="{{$user->enabled === "Y" ? "Deshabilitar" : "Habilitar"}} usuario"
+                                                                onclick="actualizarEstadoUsuario('{{$user->party_id}}','{{$user->enabled}}')">
+                                                            <i class="fa {{$user->enabled === "Y" ? "fa-user-times" : "fa-undo"}}"></i>
+                                                        </button>
+                                                        <a href="{{url('usuario/perfil',$user->party_id)}}" class="btn btn-sm btn-warning" {{$user->enabled === "N" ? "disabled" : ""}} title="Editar usuario">
+                                                            <i class="fa fa-pencil-square-o"></i>
                                                         </a>
-                                                    @endif
-                                                @endforeach
-                                            </td>
-                                            <td style="vertical-align: middle">
-                                                @foreach($user->party->party_contact_mech as $contact_mech)
-                                                    @if($contact_mech->contact_mech->contact_mech_type_id === "TELECOM_NUMBER")
-                                                        <a style="text-decoration: none;" href="tel:{{$contact_mech->contact_mech->telecom_number->contact_number}}">
-                                                            {{$contact_mech->contact_mech->telecom_number->contact_number}}
-                                                        </a>
-                                                    @endif
-                                                @endforeach
-                                            </td>
-                                            <td style="vertical-align: middle">{{$user->party->party_role->role_type->description }}</td>
-                                            <td scope="row" style="vertical-align: middle">
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-sm btn-{{$user->enabled === "Y" ? "danger" : "success"}}" title="{{$user->enabled === "Y" ? "Deshabilitar" : "Habilitar"}} usuario"
-                                                            onclick="actualizarEstadoUsuario('{{$user->party_id}}','{{$user->enabled}}')">
-                                                        <i class="fa {{$user->enabled === "Y" ? "fa-user-times" : "fa-undo"}}"></i>
-                                                    </button>
-                                                    <a href="{{url('usuario/perfil',$user->party_id)}}" class="btn btn-sm btn-warning" {{$user->enabled === "N" ? "disabled" : ""}} title="Editar usuario">
-                                                        <i class="fa fa-pencil-square-o"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endif
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endif
                                     @endif
                                 @endif
                             @endforeach
