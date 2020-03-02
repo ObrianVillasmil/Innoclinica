@@ -56,13 +56,14 @@
                                                 <td style="vertical-align: middle">{{$user->party->person->first_name}}</td>
                                                 <td style="vertical-align: middle">{{$user->party->person->last_name}}</td>
                                                 <td style="vertical-align: middle">
-                                                    @foreach($user->party->party_contact_mech as $contact_mech)
+                                                    {{$user->email}}
+                                                    {{--@foreach($user->party->party_contact_mech as $contact_mech)
                                                         @if($contact_mech->contact_mech->contact_mech_type_id === "EMAIL_ADDRESS")
                                                             <a style="text-decoration: none;" href="mailto:{{$contact_mech->contact_mech->info_string}}">
                                                                 {{$contact_mech->contact_mech->info_string}}
                                                             </a>
                                                         @endif
-                                                    @endforeach
+                                                    @endforeach--}}
                                                 </td>
                                                 <td style="vertical-align: middle">
                                                     @foreach($user->party->party_contact_mech as $contact_mech)
