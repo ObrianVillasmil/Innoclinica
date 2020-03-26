@@ -270,6 +270,7 @@ class TratamientoController extends Controller
     }
 
     public function storeDistribucionTratamiento(Request $request){
+        dd($request->all());
 
         $success = false;
         $msg = '<div class="alert alert-info" role="alert">
@@ -315,13 +316,15 @@ class TratamientoController extends Controller
                         $modelDistribucionTratamiento = DistribucionTratamiento::all()->last();
                         foreach($request['detalle_distribucion_tratamiento'][$x] as $fases){
                             foreach($fases as $filas) {
-                                $objDetalleDistribucionTratamiento = new DetalleDistribucionTratamiento;
-                                $objDetalleDistribucionTratamiento->id_distribucion_tratamiento = $modelDistribucionTratamiento->id_distribucion_tratamiento;
-                                $objDetalleDistribucionTratamiento->product_id = $filas['producto'];
-                                $objDetalleDistribucionTratamiento->cantidad_aplicacion = $filas['cantidad'];
-                                $objDetalleDistribucionTratamiento->intervalo = $filas['intervalo_aplicacion'];
-                                $objDetalleDistribucionTratamiento->cantidad_intervalo = $filas['cantidad_intervalo'];
-                                $objDetalleDistribucionTratamiento->save();
+                                if(isset($filas['cantidad']) && isset($filas['intervalo_aplicacion']) && isset($filas['cantidad_intervalo'])){
+                                    $objDetalleDistribucionTratamiento = new DetalleDistribucionTratamiento;
+                                    $objDetalleDistribucionTratamiento->id_distribucion_tratamiento = $modelDistribucionTratamiento->id_distribucion_tratamiento;
+                                    $objDetalleDistribucionTratamiento->product_id = $filas['producto'];
+                                    $objDetalleDistribucionTratamiento->cantidad_aplicacion = $filas['cantidad'];
+                                    $objDetalleDistribucionTratamiento->intervalo = $filas['intervalo_aplicacion'];
+                                    $objDetalleDistribucionTratamiento->cantidad_intervalo = $filas['cantidad_intervalo'];
+                                    $objDetalleDistribucionTratamiento->save();
+                                }
                             }
                         }
                     }

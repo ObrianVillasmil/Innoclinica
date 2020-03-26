@@ -141,14 +141,13 @@
                         </div>
                     @endif
                     @else
-                        <div class="alert alert-info text-center">Debe completar sus datos en el sistema, para poder realizar acciones en el sistema, dirijase a la seccion Perfil en el menú de usuario</div>
+                        <div class="alert alert-info text-center">Debe completar sus datos, para poder realizar acciones en el sistema, dirijase a la seccion Perfil en el menú de usuario</div>
                     @endif
                 @else
                 <div class="alert alert-info text-center">Debe seleccionar su rol de usuario para poder realizar acciones en el sistema</div>
             @endif
         </div>
     </div>
-
 @endif
 @endsection
 {{--@section('custom_page_js')

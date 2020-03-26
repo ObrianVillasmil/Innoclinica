@@ -400,12 +400,20 @@ function store_distribucion_tratamiento_doctor(partyIdSolicitante,idTratamiento,
 function store_distribucion_tratamiento_seguimiento(partyIdSolicitante,idTratamiento) {
 
     cie10 = "";
+    inicio_tratamiento = $("#inicio_tratamiento").val();
+
     $.each($('input.cie10'),function (i,j) {
         if($(j).is(":checked")) cie10 = j.value;
     });
 
     if(cie10 === ""){
         modal('error_cie-10','<div class="alert alert-danger text-center">Debe selecionar una enfermedad del CIE-10</div>',
+            '<span class="text-danger"><i class="fa fa-exclamation-triangle" ></i> Alerta</span>',false,'40%',false);
+        return false;
+    }
+
+    if(inicio_tratamiento.length===0){
+        modal('error_cie-10','<div class="alert alert-danger text-center">Debe colocar la fecha de inicio del tratamientos</div>',
             '<span class="text-danger"><i class="fa fa-exclamation-triangle" ></i> Alerta</span>',false,'40%',false);
         return false;
     }
@@ -447,9 +455,10 @@ function store_distribucion_tratamiento_seguimiento(partyIdSolicitante,idTratami
         cie10 : cie10,
         descripcion_patologica : $("#descripcion_patologica").val(),
         justificacion : $("#justificacion").val(),
+        inicio_tratamiento : $("#inicio_tratamiento").val()
         //idDistribucionTratamientoDoctor : idDistribucionTratamientoDoctor,
     };
-    console.log(data);
+
     peticion_ajax(data,'/seguimiento/store_distribucion_tratamiento_seguimiento','POST');
 
 }
@@ -489,7 +498,7 @@ function inicioTratamiento(id_tratamineto_solicitado) {
         return false;
     }
 
-    confirmar = confirm("El tratamiento comenzará en fecha "+fecha);
+    confirmar = confirm("La fecha del tratamiento se actualizará a "+fecha);
     if (confirmar) {
         load("show");
         data = {

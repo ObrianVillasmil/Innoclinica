@@ -314,12 +314,8 @@ class TratamientoClienteController extends Controller
 
                 $success = true;
                 $msg .= '<div class="alert alert-success" role="alert" style="margin: 0">
-<<<<<<< HEAD
-                                Se ha notificado a su médico de cabecera y a '.getConfiguracionEmpresa()->nombre_empresa .' de la solicitud de su tratamiento, muy pronto el personal de '.getConfiguracionEmpresa()->nombre_empresa .' se contactará con usted.!
-=======
                                 Se ha notificado a su médico de cabecera y a '.getConfiguracionEmpresa()->nombre_empresa .' de la solicitud de su tratamiento, muy pronto el contrataciones de '.getConfiguracionEmpresa()->nombre_empresa .' se contactará con usted.!
->>>>>>> b33f1bba520636fe4938396469f8d02c7ff1f642
-                            </div>';
+                         </div>';
             }
 
         }else{
@@ -528,33 +524,36 @@ class TratamientoClienteController extends Controller
             'idTratamiento' => 'required',
             'partyIdSolicitante' => 'required',
             'cie10'=> 'required',
-            'descripcion_patologica' => 'required'
+            'descripcion_patologica' => 'required',
+            'inicio_tratamiento' => 'required'
         ],[
             'idTratamiento.required' => 'No se ha seleccionado el tratamiento',
             'partyIdSolicitante.required' => 'No se ha seleccionado el paciente para el tratamiento',
             'cie10.required' => 'Debe seleccionar una enfermedad de la lista disponible del CIE-10',
-            'descripcion_patologica.required' => 'Debe escribir la descripción patológica del tratamiento'
+            'descripcion_patologica.required' => 'Debe escribir la descripción patológica del tratamiento',
+            'inicio_tratamiento.required' => 'Debe colocar la fecha de inicio del tratamiento'
         ]);
 
-        //dd($validar->errors()->all());
         $success = false;
         $msg = '';
 
         if (!$validar->fails()) {
 
-            $fechaAnterior = "";
-            $ultimaFechaAnterior = "";
             $solicitante = getParty($request->partyIdSolicitante);
-
+            $fechaInicio = $request->inicio_tratamiento;
+            $ultimoIntervaloDistribucion=0;
             $objDetalleTratamientoDoctor = DetalleTratamientoDoctor::where('id_tratamiento_solicitado',$solicitante->tratamiento_solicitado()->id_tratamiento_solicitado);
 
             if(isset($objDetalleTratamientoDoctor))
                 $objDetalleTratamientoDoctor->delete();
 
             $tratamiento = getTratamiento($request->idTratamiento);
-            //$calculoDistribucionTratamiento = $tratamiento->distribucion_tratamiento[0]->calculo_intervalo;
+            $calculoIntervaloTratamiento = $tratamiento->detalle_tratamiento->calculo_intervalo;
 
             $tratamientoSolicitado = getTratamientoSolicitado($request->idTratamiento, $request->partyIdSolicitante);
+
+            $fechaTratamientos = TratamientoSolicitado::find($tratamientoSolicitado->id_tratamiento_solicitado);
+            $fechaTratamientos->update(['fecha_inicio'=>$fechaInicio]);
 
             $objDetalleTratamientoDoctor = new DetalleTratamientoDoctor;
             $objDetalleTratamientoDoctor->id_tratamiento_solicitado = $tratamientoSolicitado->id_tratamiento_solicitado;
@@ -566,23 +565,22 @@ class TratamientoClienteController extends Controller
                 $modelDetalleTratamientoDoctor = DetalleTratamientoDoctor::All()->last();
 
                 foreach ($request->distribucion_tratamiento as $x => $distribucion_tratamiento_doctor) { // X == 0 Es el comienzo de la primera fase
-                    $w = 0;
+
                     $objDistribucionTratamientoDoctor = new DistribucionTratamientoDoctor;
                     $objDistribucionTratamientoDoctor->id_detalle_tratamiento_doctor = $modelDetalleTratamientoDoctor->id_detalle_tratamiento_doctor;
                     $objDistribucionTratamientoDoctor->intervalo = $distribucion_tratamiento_doctor['intervalo'];
                     $objDistribucionTratamientoDoctor->cantidad_intervalo = $distribucion_tratamiento_doctor['cantidad_intervalo'];
                     $objDistribucionTratamientoDoctor->cantidad_aplicacion = $distribucion_tratamiento_doctor['cantidad_aplicacion'];
 
-                    switch ($distribucion_tratamiento_doctor['intervalo']) {
+                    switch ($distribucion_tratamiento_doctor['intervalo']) { //DISTRIBUCIÓN FASES
                         case 1:
-                            $faseIntervaloDistribucion = 1;
+                            $faseIntervaloDistribucion = 1; //DIARIO
                             break;
                         case 2:
-                            $faseIntervaloDistribucion = 7;
-
+                            $faseIntervaloDistribucion = 7; //SEMANAL
                             break;
                         case 3:
-                            $faseIntervaloDistribucion = 30;
+                            $faseIntervaloDistribucion = 30; //MENSUAL
                             break;
                     }
 
@@ -591,7 +589,7 @@ class TratamientoClienteController extends Controller
                         $modelDistribucionTratamientoDoctor = DistribucionTratamientoDoctor::All()->last();
 
                         foreach ($request->distribucionTratamientoDoctor[$x] as $y => $detalleDistribucionTratamientoDoctor) { // Y == 0 es el inicio de una fase
-                            //dump($y,$detalleDistribucionTratamientoDoctor);
+                            $w=0;
                             foreach ($detalleDistribucionTratamientoDoctor as $z=> $fases) { // Z == 0 Es la primera aplicacion de cada fase
                                 $objDetalleDistribucionTratamientoDoctor = new DetalleDistribucionTratamientoDoctor;
                                 $objDetalleDistribucionTratamientoDoctor->id_distribucion_tratamiento_doctor = $modelDistribucionTratamientoDoctor->id_distribucion_tratamiento_doctor;
@@ -612,138 +610,62 @@ class TratamientoClienteController extends Controller
                                         break;
                                 }
 
-                                //CUANDO Y == 0 EL CALCULO DE LA FECHA SE REINICIA
+                                if($calculoIntervaloTratamiento){
 
-                                if(isset($fechaInicial) && $y == 1 && $z == 0)
-                                    $fechaAnterior = $fechaInicial;
 
-                                if (($x == 0 && $y == 0 && $z == 0) || ($x == 0 && ($y==1 && $z==0) || ($y==2 && $z == 0))){
-                                    $fechaAnterior = $tratamientoSolicitado->fecha_inicio;
+
                                 }else{
+                                    if($x==0 && $z==0){ // Pimera fecha
+                                        $fecha = $fechaInicio;
+                                        $dias=0;
+                                    }else{
+                                        if($x==0){ // Fechas del tratamiento inicial
+                                            $dias = $intervaloDistribucion*$fases['cantidad_intervalo'];
+                                        }else{
+                                            if($x==1 && $z==0){ // Primera fecha 2da fase
+                                                $dias = $faseIntervaloDistribucion*$distribucion_tratamiento_doctor['cantidad_intervalo'];
+                                                $ultimoIntervaloDistribucion = $distribucion_tratamiento_doctor['cantidad_intervalo'];
+                                            }elseif($x==1){ // Resto fechas 2 fase
+                                                $dias = $intervaloDistribucion*$fases['cantidad_intervalo'];
+                                            }else{ // Resto fechas
+                                                if($w==0 && $z==0){ // Primera fecha de la respectiva fase
 
-                                    $dias = $intervaloDistribucion * $fases['cantidad_intervalo']; // 7 Días
+                                                    // CALCULAR DIFERENCIA DE TIEMPO ENTRE DOS INTERVALOS DE DISTRIBUCION
+                                                    $intervaloDistribucion=0;
 
-                                    if($z==0 && $y>0)
-                                        $dias =0;
 
-                                    if ($w == 0)
-                                        $dias = $dias + $faseIntervaloDistribucion * $distribucion_tratamiento_doctor['cantidad_intervalo'];
+                                                    for($i=$ultimoIntervaloDistribucion; $i<$distribucion_tratamiento_doctor['cantidad_intervalo']; $i++)
+                                                        $intervaloDistribucion++;
 
-                                    if ($tratamiento->detalle_tratamiento->calculo_intervalo && ($y == 0 || $y == 1 || $y == 2))
-                                        $fechaAnterior = $tratamientoSolicitado->fecha_inicio;
 
-                                    $fechaAnterior = Carbon::parse($fechaAnterior)->addDays($dias)->toDateString();
+                                                    $dias = $faseIntervaloDistribucion*$intervaloDistribucion;
 
-                                    $w++;
+                                                    $ultimoIntervaloDistribucion = $distribucion_tratamiento_doctor['cantidad_intervalo'];
 
+                                                }else{// Resto fechas de las respectivas fases
+                                                    $dias = $intervaloDistribucion*$fases['cantidad_intervalo'];
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
 
-                                if($y == 0 && $z == 0)
-                                     $fechaInicial = $fechaAnterior;
+                                $fecha = Carbon::parse($fecha)->addDays($dias)->toDateString();
 
-                                $objDetalleDistribucionTratamientoDoctor->fecha_aplicacion = $fechaAnterior;
+                                $objDetalleDistribucionTratamientoDoctor->fecha_aplicacion = $fecha;
 
 
                                 if ($objDetalleDistribucionTratamientoDoctor->save()) {
                                     $success = true;
                                     $msg = '<div class="alert alert-success" role="alert" style="margin: 0">
-                                                    Se ha guardado la distribución con éxito.!
-                                                </div>';
+                                               Se ha guardado la distribución con éxito.!
+                                            </div>';
                                 } else {
                                     DetalleTratamientoDoctor::destroy($modelDetalleTratamientoDoctor->id_detalle_tratamiento_doctor);
                                 }
                             }
-
-
                         }
-
                     }
-
-                    /*foreach ($request->distribucionTratamientoSeguimiento as $x => $disTraSeg) {
-                        $z=0;
-                        $objDistribucionTratamientoDoctor = new DistribucionTratamientoDoctor;
-                        $objDistribucionTratamientoDoctor->id_tratamiento = $request->idTratamiento;
-                        $objDistribucionTratamientoDoctor->party_id_doctor = $idDoctor;
-                        $objDistribucionTratamientoDoctor->party_id_solicitante = $request->partyIdSolicitante;
-                        $objDistribucionTratamientoDoctor->id_cie10 = $request->cie10;
-                        $objDistribucionTratamientoDoctor->descripcion_patologica = $request->descripcion_patologica;
-                        $objDistribucionTratamientoDoctor->justificacion_medica = $request->justificacion;
-                        $objDistribucionTratamientoDoctor->intervalo = $disTraSeg['intervalo'];
-                        $objDistribucionTratamientoDoctor->cantidad_intervalo = $disTraSeg['cantidad_intervalo'];
-                        $objDistribucionTratamientoDoctor->cantidad_aplicacion = $disTraSeg['cantidad_aplicacion'];
-                        $objDistribucionTratamientoDoctor->product_id = $request->id_producto;
-
-                        switch ($disTraSeg['intervalo']){
-                            case 1:
-                                $faseIntervaloDistribucion = 1;
-                                break;
-                            case 2:
-                                $faseIntervaloDistribucion = 7;
-
-                                break;
-                            case 3:
-                                $faseIntervaloDistribucion = 30;
-                                break;
-                        }
-
-                        if ($objDistribucionTratamientoDoctor->save()) {
-
-                            $modelDistribucionTratamientoDoctor = DistribucionTratamientoDoctor::all()->last();
-
-                            foreach ($request->detalleDistribucionTratamientoSeguimiento[$x] as $y => $detDistTraSeg){
-
-                                $objDetalleDistribucionTratamientoDoctor = new DetalleDistribucionTratamientoDoctor;
-                                $objDetalleDistribucionTratamientoDoctor->id_distribucion_tratamiento_doctor = $modelDistribucionTratamientoDoctor->id_distribucion_tratamiento_doctor;
-                                $objDetalleDistribucionTratamientoDoctor->cumplido = $detDistTraSeg['cumplido'];
-                                $objDetalleDistribucionTratamientoDoctor->intervalo = $detDistTraSeg['intevalo_aplicacion'];
-                                $objDetalleDistribucionTratamientoDoctor->cantidad_intervalo = $detDistTraSeg['cantidad_intervalo'];
-                                $objDetalleDistribucionTratamientoDoctor->cantidad_aplicacion = $detDistTraSeg['dosis'];
-
-                                switch ($detDistTraSeg['intevalo_aplicacion']){
-                                    case 1:
-                                        $intervaloDistribucion = 1;
-                                        break;
-                                    case 2:
-                                        $intervaloDistribucion = 7;
-                                        break;
-                                    case 3:
-                                        $intervaloDistribucion = 30;
-                                        break;
-                                }
-
-                                if($x == 0 && $y == 0){
-                                    $fechaAnterior = $tratamientoSolicitado->fecha_inicio;
-                                }else{
-                                    $dias = $intervaloDistribucion*$detDistTraSeg['cantidad_intervalo'];
-
-                                    if($z==0)
-                                        $dias = $dias + $faseIntervaloDistribucion * $disTraSeg['cantidad_intervalo'];
-
-                                    if($tratamiento->distribucion_tratamiento[0]->calculo_intervalo && $y ==0)
-                                        $fechaAnterior = $tratamientoSolicitado->fecha_inicio;
-
-                                        $fechaAnterior = Carbon::parse($fechaAnterior)->addDays($dias)->toDateString();
-                                    }
-
-                                $objDetalleDistribucionTratamientoDoctor->fecha_aplicacion = $fechaAnterior;
-
-                                if(!$objDetalleDistribucionTratamientoDoctor->save()){
-
-                                    $success = false;
-                                    $msg = '<div class="alert alert-danger" role="alert" style="margin: 0">
-                                                Ha ocurrido un error inesperado al guardar la distribución del tratamiento, intente nuevamente.!
-                                            </div>';
-                                }else{
-                                    $success = true;
-                                    $msg = '<div class="alert alert-success" role="alert" style="margin: 0">
-                                                Se ha guardado la distribución con éxito.!
-                                            </div>';
-                                }
-
-                                $z++;
-                            }
-
-                        }*/
                 }
             }else{
                     $success = false;

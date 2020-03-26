@@ -88,7 +88,8 @@
                         </div>
                     </nav>
                     <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="distribucion_tratamiento" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="tab-pane fade show active" id="distribucion_tratamiento"
+                             style="width: 100%;overflow-x: auto" role="tabpanel" aria-labelledby="nav-home-tab">
                             <div style="width: 80%;margin: 20px auto;">
                                 <table style="width: 100%;">
                                     <tr>
@@ -164,7 +165,7 @@
                                 <tr>
                                     <td colspan="3" style="border: 1px solid black;">
                                         <div class="row">
-                                            <div class="col-md-7">
+                                            <div class="col-md-7 col-sm-7 col-xs-12">
                                                 <div class="input-group">
                                                     <form id="form_nueva_fase" name="form_nueva_fase">
                                                         <div class="input-group-prepend">
@@ -195,7 +196,7 @@
                                                     </form>
                                                 </div>
                                             </div>
-                                            <div class="col-md-5">
+                                            <div class="col-md-5 col-sm-5 col-xs-12 ">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-prepend">
@@ -588,7 +589,7 @@
                                                 <div class="tab-content aplicaciones" style="width: 100%;">
                                                         @foreach($distribucion->distribucion_tratamiento as $x => $dist)
                                                         <div id="menu_{{$x+1}}" class="tab-pane {{($x == 0) ? "fade active in active show" : ""}}">
-                                                            <div class="card-block p-0">
+                                                            <div class="card-block p-0" style="width: 100%;overflow: auto;">
                                                                 <table class="table table-bordered table-sm m-0" style="font-size: 12px;">
                                                                     <thead class="">
                                                                         <tr class="text-center">
