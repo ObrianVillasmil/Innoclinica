@@ -46,7 +46,7 @@
                 <select id="calculo_intervalo" name="calculo_intervalo" style="height: 38px;position: relative;top: 1px;border:1px solid #f3f3f3"
                        title="Seleccione el tipo de cálculo que se usará para las fechas del tratamiento" onchange="error(this.id)">
                     <option value="0" {{isset($detalleTratamiento->calculo_intervalo) ? ($detalleTratamiento->calculo_intervalo ? "" : "selected") : "" }}> Desde la última dosis de cada ciclo </option>
-                    <option value="1" {{isset($detalleTratamiento->calculo_intervalo) ? ($detalleTratamiento->calculo_intervalo ? "selected" : "") : "" }}> Desde el comienzo del tratamiento </option>
+                    {{--<option value="1" {{isset($detalleTratamiento->calculo_intervalo) ? ($detalleTratamiento->calculo_intervalo ? "selected" : "") : "" }}> Desde el comienzo del tratamiento </option>--}}
                 </select>
                 <button type="button" class="btn btn-success btn_store" onclick="generar_formato();">
                     <i class="fa fa-cog"></i>

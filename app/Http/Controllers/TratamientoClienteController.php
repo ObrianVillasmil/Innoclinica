@@ -610,11 +610,11 @@ class TratamientoClienteController extends Controller
                                         break;
                                 }
 
-                                if($calculoIntervaloTratamiento){
+                                if($calculoIntervaloTratamiento){ // Ùltima dosis de cada siglo
 
+                                    
 
-
-                                }else{
+                                }else{ //Desde el comienzo del tratamiento
                                     if($x==0 && $z==0){ // Pimera fecha
                                         $fecha = $fechaInicio;
                                         $dias=0;
