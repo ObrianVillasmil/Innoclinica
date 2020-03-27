@@ -119,7 +119,6 @@ class CotizacionController extends Controller
         $medicoId = $tratamientSolicitado->id_doctor;
         $envioDomId =$request->tipo_envio;
 
-
         foreach($person->party_contact_mech as $contactMech){
             if($contactMech->contact_mech->contact_mech_type_id === "POSTAL_ADDRESS"){
                 $direccionId = $contactMech->contact_mech->contact_mech_id;
@@ -157,7 +156,7 @@ class CotizacionController extends Controller
                     'valor'=> $response->faultCode() ==0 ? json_decode($response->value()->me['struct']['res']->me['string']) : false,
                     'codigo' =>$response->faultCode(),
                     'mensaje' =>  $response->faultString()
-                ]);;
+                ]);
             }
 
             $msg = $data;
@@ -166,19 +165,19 @@ class CotizacionController extends Controller
         }else{
             $success = false;
 
-            if($direccionId!="")
+            if($direccionId=="")
                 $msg = "El usuario no tiene una dirección de envío registrada en el sistema";
 
-            if($telefonoId!="")
+            if($telefonoId=="")
                 $msg = "El usuario no tiene un teléfono registrado en el sistema";
 
-            if($emailId!="")
+            if($emailId=="")
                 $msg = "El usuario no tiene un correo registrado en el sistema";
 
-            if($medicoId!="")
+            if($medicoId=="")
                 $msg = "El tratamiento no tiene un doctor asignado";
 
-            if($envioDomId!="")
+            if($envioDomId=="")
                 $msg = "Seleccione el tipo de envío";
 
             if(!isset($request->forma_pago))

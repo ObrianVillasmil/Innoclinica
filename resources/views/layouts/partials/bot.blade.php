@@ -1,10 +1,11 @@
-<div id="back-to-top" href="#" style="width: 320px;"
+<div id="back-to-top" href="#" style="border-radius: 4px;"
      class="card card-prirary cardutline direct-chat direct-chat-primary collapsed-card chat">
-    <div class="card-header header-chat header-bot" title="Haga doble clic aquí para abrir y cerrar el chat" style="cursor:pointer;background: #33b35a;color: #fff;border-radius: 4px;">
-        <h3 class="card-title chat-title" style="margin-top:6px ">¿Podemos ayudarte?</h3>
+    <div class="card-header header-chat header-bot" title="Haga doble clic aquí para abrir y cerrar el chat"
+         style="cursor:pointer;background: #33b35a;color: #fff;border-radius: 4px;">
+        <h3 class="card-title chat-title d-none" style="margin-top:6px"></h3>
         <div class="card-tools">
             {{--<i class="fa fa-2x fa-comments-o rotated-left i-chat"></i>--}}
-            <i class="fa fa-2x fa-comment-o i-chat" ></i>
+            <i style="" class="fa  fa-comment-o i-chat"></i>
         </div>
     </div>
     <div class="card-body chat-body" style="display: none;height: 300px;overflow: auto;">
@@ -50,7 +51,8 @@
     <div class="card-footer" style="display: none;">
         <form id="form_chat_bot">
             <div class="input-group">
-                <input type="text" name="message" placeholder="Escribe tu mensaje" class="form-control" id="msj_usuario" style="text-transform: lowercase;" required>
+                <input type="text" name="message" placeholder="Escribe tu mensaje"
+                       class="form-control" id="msj_usuario" style="text-transform: lowercase;" required>
                 <span class="input-group-append">
                       <button type="button" class="btn btn-primary" id="enviar_pregunta">
                           <i class="fa fa-paper-plane"></i> Enviar
@@ -62,18 +64,32 @@
     <!-- /.card-footer-->
 </div>
 <style>
-
+    .fa-comment-o,.fa-commenting-o{
+        position: relative;
+        bottom: 8px;
+        left: 18px;
+        font-size: 26px
+    }
+    .card-header{
+        border-bottom: 0;
+        height: 28px;
+    }
+    .chat {
+       /* position: fixed;
+        left: 50%;
+        z-index: 1000;
+        bottom: -25px;*/
+        width:40px;
+        margin: 0;
+        padding: 0;
+    }
+    #back-to-top{
+        z-index: 99999999999;
+    }
     #msj_usuario-error{
         position: absolute;
         bottom: -26px;
     }
-    .chat {
-        top: 85%;
-        position: fixed;
-        right: 0.5rem;
-        z-index: 1000;
-    }
-
     element.style {
         width: 70%;
     }
@@ -113,7 +129,6 @@
         padding: .5rem;
         position: relative;
     }
-
     .info-box-icon {
         border-radius: .25rem;
         display: block;
@@ -121,73 +136,67 @@
         text-align: center;
         width: 70px;
     }
-
     .info-box-content {
         -ms-flex: 1;
         flex: 1;
         padding: 5px 10px;
     }
-
     .info-box .info-box-text, .info-box .progress-description {
         display: block;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-
     .info-box .info-box-number {
         display: block;
         font-weight: 700;
     }
-
     .info-box .progress {
         background-color: rgba(0,0,0,.125);
         height: 2px;
         margin: 5px 0;
     }
-
     .info-box{
         color: #FFFFFF;
     }
-
     @media (min-width: 1200px){
         .col-lg-3 .info-box .progress-description, .col-md-3 .info-box .progress-description, .col-xl-3 .info-box .progress-description {
             font-size: 1rem;
             display: block;
         }
     }
-
     @media (min-width: 992px){
         .col-lg-3 .info-box .progress-description, .col-md-3 .info-box .progress-description, .col-xl-3 .info-box .progress-description {
             font-size: .75rem;
             display: block;
         }
     }
-
     @media (min-width: 768px){
         .col-lg-3 .info-box .progress-description, .col-md-3 .info-box .progress-description, .col-xl-3 .info-box .progress-description {
             display: none;
         }
-    }
 
+    }
+    @media (max-width: 768px){
+        .chat {
+            right: 48%;
+        }
+    }
     .info-box .progress-description {
         margin: 0;
     }
-
     .info-box .info-box-text, .info-box .progress-description {
         display: block;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-
     .card-title {
         float: left;
         font-size: 1.1rem;
         font-weight: 400;
         margin: 0;
     }
-
     .direct-chat-infos {
         display: block;
         font-size: .875rem;
@@ -202,35 +211,33 @@
         padding: 5px;
         border-radius: 10px;
     }
-
     .card-header>.card-tools {
         float: right;
         margin-right: -.625rem;
         padding: 0px 15px;
     }
-
     .header-chat:hover{
         transform:scale(1.1);
         -ms-transform:scale(1.1); // IE 9
-    -moz-transform:scale(1.1); // Firefox
-    -webkit-transform:scale(1.1); // Safari and Chrome
-    -o-transform:scale(1.1);
+        -moz-transform:scale(1.1); // Firefox
+        -webkit-transform:scale(1.1); // Safari and Chrome
+        -o-transform:scale(1.1);
         transition: all ease .4s;
 
     }
-
 </style>
 <script>
     $(".header-bot").click(function (e) {
         $(this).removeClass('collapsed-card');
-        //if($(this).hasClass('collapsed-card')){
         $("div.chat-body").css('display','block');
         $("div.card-footer").css('display','block');
-        $(".chat-title").html('Escríbenos...!');
-        $("#back-to-top").css({'top':'20%','rigth':'40%'});
+        $(".chat-title").html('Escríbenos...!').removeClass('d-none');
+        $("#back-to-top").css({'top':'4%','right':'40%','width':'320px','border-radius':'5px'});
+        $(".chat").css('position','fixed');
+        $(".card-header").css({'border-radius':'5px','height':'48px'});
         e.stopPropagation();
-        //}else{}
         $(".chat-body").scrollTop($(".chat-body")[0].scrollHeight);
+        $(".fa-comment-o,.fa-commenting-o").css({'bottom': '0px','left':'0'});
     });
 
     $("div.chat-body,div.card-footer,.chat-title").click(function (e) {
@@ -241,8 +248,11 @@
         $(".header-bot").addClass('collapsed-card');
         $("div.chat-body").css('display','none');
         $("div.card-footer").css('display','none');
-        $(".chat-title").html('¿Podemos ayudarte?');
-        $("#back-to-top").css({'top':'85%','rigth':'4%'});
+        $("#back-to-top").css({'width':'40px','right':'5rem','border-radius':'4px','position':'inherit','top':'0','left':'0'});
+        $(".card-header").css({'border-radius':'4px','height':'28px'});
+        $(".chat").css('position','block');
+        $(".chat-title").addClass('d-none').html('');
+        $(".fa-comment-o,.fa-commenting-o").css({'bottom':'8px','left':'18px'});
     });
 
     setInterval(function () {
@@ -257,15 +267,12 @@
     },1500);
 
     $(function() {
-        $("#back-to-top").draggable({
-
-        });
+        $("#back-to-top").draggable();
 
         $('.page').droppable({
             accept :"#back-to-top",
             drop: function(ev,ui) {
                 ev.stopPropagation();
-                console.log("hola");
             }
         });
     });

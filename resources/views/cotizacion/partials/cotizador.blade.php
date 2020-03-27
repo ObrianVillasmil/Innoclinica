@@ -35,7 +35,7 @@
                         <td style="vertical-align: middle" class="text-center">{{getProducto($p['product_id'])->product_name}}</td>
                         <td style="vertical-align: middle;width: 90px" class="text-center">
                             <input type="number" class="form-control text-center cantidad" id="cantidad_{{$x+1}}"
-                                   value="{{$p['cantidad']}}" name="cantidad_{{$x+1}}" min="1" required>
+                                   value="1{{--$p['cantidad']--}}" name="cantidad_{{$x+1}}" min="1" required>
                         </td>
                         <td style="vertical-align: middle" class="text-center" id="unitario_{{$x+1}}">$0.00</td>
                         <td style="vertical-align: middle" class="text-center" id="total_pvp_{{$x+1}}">$0.00</td>

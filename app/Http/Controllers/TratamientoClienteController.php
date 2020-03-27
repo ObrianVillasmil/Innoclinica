@@ -847,14 +847,14 @@ class TratamientoClienteController extends Controller
 
 
         $party = getParty(session('party_id'));
-                                                                                                                                                                // ROL AGREGADO SOLO PARA PRUEBAS
+                                                                                                                                                                                // ROL AGREGADO SOLO PARA PRUEBAS
         if($party->party_role->role_type->role_type_id == "END_USER_CUSTOMER" || $party->party_role->role_type->role_type_id == "REPRESENTANTE_LEGAL" || $party->party_role->role_type->role_type_id == "ADMIN"){
             $tratamientoSolicitado = getSolicitudTratamiento($request->id_tratamiento,$party->party_id);
             $partyId = $party->party_id;
             if(!isset($tratamientoSolicitado)){
                 setSolicitudTratamiento($request->id_tratamiento,$request->paso,isset($partyDoctor) ? $partyDoctor : $objParty->party_id);
             }else{
-                updateSolicitudTratamiento($tratamientoSolicitado->id_tratamiento_solicitado,$request->paso);
+                updateSolicitudTratamiento($tratamientoSolicitado->id_tratamiento_solicitado,$request->paso,isset($partyDoctor) ? $partyDoctor : $objParty->party_id);
             }
         }else{
             $partyId = $request->partyIdSolicitante;

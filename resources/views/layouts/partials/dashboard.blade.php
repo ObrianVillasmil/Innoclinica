@@ -50,7 +50,7 @@
             </div>
             @include('layouts.partials.footer')
             @include('layouts.partials.modal')
-            @include('layouts.partials.bot')
+
         </div>
         <!-- JavaScript files-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>

@@ -311,9 +311,10 @@ function getSolicitudTratamiento($idTratamiento,$partyId){
     ])->first();
 }
 
-function updateSolicitudTratamiento($idTratamietoSolicitado,$paso){
+function updateSolicitudTratamiento($idTratamietoSolicitado,$paso,$partyIdDoctor=null){
     $tratamientoSolictado = TratamientoSolicitado::find($idTratamietoSolicitado);
     $tratamientoSolictado->proceso_actual = $paso;
+    isset($partyIdDoctor) != null ? $tratamientoSolictado->id_doctor = $partyIdDoctor : "";
     $tratamientoSolictado->save();
 }
 
