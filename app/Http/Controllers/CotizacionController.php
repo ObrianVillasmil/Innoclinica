@@ -140,17 +140,16 @@ class CotizacionController extends Controller
             $telefonoId = new value($telefonoId);
             $emailId = new value($emailId);
             $medicoId = new value($medicoId);
-            $fpago  = new value($request->forma_pago);
+            $tipoPago  = new value($request->forma_pago);
             $envioDomId = new value($envioDomId);
             $data=[];
             foreach($request->product as $pro) {
-
                 $productId = new value($pro['product_id']);
                 $cantidad = new value($pro['cantidad']);
                 $client = new Client('http://innoclinica.evalua.com.ec:8081/ventas/control/xmlrpc');
                 $client->setCredentials('tratamientos','Trat-2019');
                 $response = $client->send(new ResqClientXmlrpc('crearCotizacion',[
-                    $clienteId,$direccionId,$direccionEnvioId,$telefonoId,$emailId,$medicoId,$productId,$cantidad,$fpago,$envioDomId
+                    $clienteId,$direccionId,$direccionEnvioId,$telefonoId,$emailId,$medicoId,$productId,$cantidad,$tipoPago,$envioDomId
                 ]));
                 $data[] = response()->json([
                     'valor'=> $response->faultCode() ==0 ? json_decode($response->value()->me['struct']['res']->me['string']) : false,
@@ -160,8 +159,7 @@ class CotizacionController extends Controller
             }
 
             $msg = $data;
-            //dump($data);
-            /*return */
+
         }else{
             $success = false;
 
