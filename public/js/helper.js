@@ -641,11 +641,14 @@ function SolicitarCotizacion() {
         let total_general=0;
         let total_general_pvp=0;
         let total_general_dscto=0;
+
+
         $.each($(".tr_prodcuto"),function (i,j) {
             load("show");
+            cantidad = $(j).find('input.cantidad').val();
             datos = {
                 product_id : $(j).find('td.product_id').html(),
-                cantidad : $(j).find('input.cantidad').val(),
+                cantidad   : 1,
                 forma_pago : $("select#forma_pago").val()
             };
 
@@ -661,9 +664,10 @@ function SolicitarCotizacion() {
                        total_pvp = retorno.valor.totalPvp.toFixed(2);
                        desceunto = retorno.valor.totalDescto.toFixed(2);
 
-                       $("#total_pvp_"+(i+1)).html("$"+total_pvp);
+                       $("#total_pvp_"+(i+1)).html("$"+total_pvp*cantidad);
                        $("#total_dscto_"+(i+1)).html("$"+desceunto);
                        $("#precio_total_"+(i+1)).html("$"+total);
+                       $("#unitario_"+(i+1)).html("$"+total_pvp);
                        
                        total_general+=parseFloat(total);
                        total_general_pvp+= parseFloat(total_pvp);
