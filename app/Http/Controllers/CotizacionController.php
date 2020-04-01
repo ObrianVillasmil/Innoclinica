@@ -131,7 +131,7 @@ class CotizacionController extends Controller
             if($contactMech->contact_mech->contact_mech_type_id === "EMAIL_ADDRESS")
                 $emailId = $contactMech->contact_mech->contact_mech_id;
         }
-        dd($direccionId,$direccionEnvioId,$telefonoId,$emailId,$medicoId,$envioDomId,$request->forma_pago);
+
 
         if($direccionId!="" && $direccionEnvioId!="" && $telefonoId!="" && $emailId!="" && $medicoId!="" && $envioDomId!="" && isset($request->forma_pago)){
             $success = true;
@@ -145,6 +145,8 @@ class CotizacionController extends Controller
             $envioDomId = new value($envioDomId);
             $data=[];
             foreach($request->product as $pro) {
+                dd($direccionId,$direccionEnvioId,$telefonoId,$emailId,$medicoId,$envioDomId,$request->forma_pago,$person->party_id,$pro['cantidad'],$pro['product_id']);
+
                 $productId = new value($pro['product_id']);
                 $cantidad = new value($pro['cantidad']);
                 $client = new Client('http://innoclinica.evalua.com.ec:8081/ventas/control/xmlrpc');
