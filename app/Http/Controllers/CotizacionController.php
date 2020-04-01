@@ -131,6 +131,7 @@ class CotizacionController extends Controller
             if($contactMech->contact_mech->contact_mech_type_id === "EMAIL_ADDRESS")
                 $emailId = $contactMech->contact_mech->contact_mech_id;
         }
+        dd($direccionId,$direccionEnvioId,$telefonoId,$emailId,$medicoId,$envioDomId,$request->forma_pago);
 
         if($direccionId!="" && $direccionEnvioId!="" && $telefonoId!="" && $emailId!="" && $medicoId!="" && $envioDomId!="" && isset($request->forma_pago)){
             $success = true;
