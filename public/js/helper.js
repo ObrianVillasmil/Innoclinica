@@ -662,16 +662,16 @@ function SolicitarCotizacion() {
                        forma_pago = $("#forma_pago").val();
                        total = retorno.valor.total.toFixed(2);
                        total_pvp = retorno.valor.totalPvp.toFixed(2);
-                       desceunto = retorno.valor.totalDescto.toFixed(2);
+                       descuento = retorno.valor.totalDescto.toFixed(2);
 
                        $("#total_pvp_"+(i+1)).html("$"+total_pvp*cantidad);
-                       $("#total_dscto_"+(i+1)).html("$"+desceunto*cantidad);
+                       $("#total_dscto_"+(i+1)).html("$"+descuento*cantidad);
                        $("#precio_total_"+(i+1)).html("$"+total*cantidad);
                        $("#unitario_"+(i+1)).html("$"+total_pvp);
                        
-                       total_general+=parseFloat(total);
-                       total_general_pvp+= parseFloat(total_pvp);
-                       total_general_dscto+=parseFloat(desceunto);
+                       total_general+=parseFloat(total*cantidad);
+                       total_general_pvp+= parseFloat(total_pvp*cantidad);
+                       total_general_dscto+=parseFloat(descuento*cantidad);
 
                        if($(".tr_prodcuto").length === (i+1)){
                            $("#total_general_pvp").html("$"+total_general_pvp.toFixed(2));
