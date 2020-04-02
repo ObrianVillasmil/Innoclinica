@@ -136,13 +136,13 @@ class CotizacionController extends Controller
         if($direccionId!="" && $direccionEnvioId!="" && $telefonoId!="" && $emailId!="" && $medicoId!="" && $envioDomId!="" && isset($request->forma_pago)){
             $success = true;
             $clienteId  = new Value($person->party_id);
-           //$direccionId = new Value($direccionId);
-            //$direccionEnvioId = new Value($direccionEnvioId);
-            //$telefonoId = new value($telefonoId);
-           // $emailId = new value($emailId);
-           // $medicoId = new value($medicoId);
+            $direccionId = new Value($direccionId);
+            $direccionEnvioId = new Value($direccionEnvioId);
+            $telefonoId = new value($telefonoId);
+            $emailId = new value($emailId);
+            $medicoId = new value($medicoId);
             $tipoPago  = new value($request->forma_pago);
-            //$envioDomId = new value($envioDomId);
+            $envioDomId = new value($envioDomId);
             $data=[];
             foreach($request->product as $pro) {
                 //dd(' clienteId=>'.$person->party_id. ' cantidad=>'.$pro['cantidad'].' productId=> '.$pro['product_id']);
@@ -153,17 +153,18 @@ class CotizacionController extends Controller
                 $client = new Client('http://innoclinica.evalua.com.ec:8081/ventas/control/xmlrpc');
                 $client->setCredentials('tratamientos','Trat-2019');
                 $response = $client->send(new ResqClientXmlrpc('crearCotizacion',[
-                    $person->party_id,
+                    $clienteId,
                     $direccionId,
                     $direccionEnvioId,
-                     $telefonoId,
-                     $emailId,
-                     $medicoId,
-                     $pro['product_id'],
-                    $pro['cantidad'],
-                     $request->forma_pago,
-                     $envioDomId
+                    $telefonoId,
+                    $emailId,
+                    $medicoId,
+                    $productId,
+                    $cantidad,
+                    $tipoPago,
+                    $envioDomId
                 ]));
+                dump($response);
                 $data[] = response()->json([
                     'valor'=> $response->faultCode() ==0 ? json_decode($response->value()->me['struct']['res']->me['string']) : false,
                     'codigo' =>$response->faultCode(),
