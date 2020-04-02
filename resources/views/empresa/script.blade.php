@@ -77,5 +77,9 @@
 
     }
 
+    function agregar_mail_cotizacion(){
+
+    }
+
     CKEDITOR.replace( 'editor' );
 </script>

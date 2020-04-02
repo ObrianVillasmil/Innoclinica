@@ -27,7 +27,10 @@
                             <i class="fa fa-eye"></i> Visualización
                         </a>
                         <a class="list-group-item list-group-item-action" data-toggle="list" href="#inventario" role="tab">
-                            <i class="fa fa-bell"></i> Notifiaciones del inventario
+                            <i class="fa fa-envelope"></i> Notifiaciones del inventario
+                        </a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#cotizaciones" role="tab">
+                            <i class="fa fa-envelope"></i> Notifiaciones de contizaciones
                         </a>
                     </div>
                 </div>
@@ -312,6 +315,37 @@
                                                 <label for="correo_3">Correo 3</label>
                                                 <input type="text" id="correo_3" class="form-control" name="correo_3"
                                                        value="{{isset($empresa->correo3_notificacion_intervalo) ? $empresa->correo3_notificacion_intervalo : ""}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-primary" onclick="store_configuracion_inventario()">
+                                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show" id="cotizaciones" role="tabpanel">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-actions float-right">
+                                    <button type="button" class="btn btn-sm btn-primary"
+                                            title="Agregar correo" onclick="agregar_mail_cotizacion()">
+                                        <i class="fa fa-plus-circle"></i>
+                                    </button>
+                                </div>
+                                <h5 class="card-title mb-0">Notificación de cotizaciones</h5>
+                            </div>
+                            <div class="card-body">
+                                <form class="form-horizontal" id="from_mail_cotizaciones">
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="correo_1">Correo 1 <sup style="color: red">*</sup></label>
+                                                <input type="text" id="correo_1" class="form-control" name="correo_1"
+                                                       value="" required>
                                             </div>
                                         </div>
                                     </div>
