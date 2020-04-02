@@ -53,7 +53,7 @@
                                     @if(isset($user->party->party_role))
                                         @if($user->party->party_role->role_type->role_type_id !== "ADMIN")
                                             <tr>
-                                                @dump($user->party);
+                                                @dump($user->party->party_id,$user->party->person);
                                                 {{--<td style="vertical-align: middle">{{$user->party->person->first_name}}</td>
                                                 <td style="vertical-align: middle">{{$user->party->person->last_name}}</td>
                                                 <td style="vertical-align: middle">
