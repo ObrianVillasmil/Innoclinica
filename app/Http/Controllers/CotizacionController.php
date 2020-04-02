@@ -75,7 +75,6 @@ class CotizacionController extends Controller
                 $productId, $cantidad, $formaPago
             ]));
 
-
             crear_log("cotizacion", session('party_id'), session('party_id'), 'El usuario '.$party->person->first_name." ".$party->person->last_name." está interezado en una cotización del producto ".getProducto($request->product_id)->product_name);
 
             return response()->json([
@@ -150,10 +149,20 @@ class CotizacionController extends Controller
 
                 $productId = new value($pro['product_id']);
                 $cantidad = new value($pro['cantidad']);
+
                 $client = new Client('http://innoclinica.evalua.com.ec:8081/ventas/control/xmlrpc');
                 $client->setCredentials('tratamientos','Trat-2019');
                 $response = $client->send(new ResqClientXmlrpc('crearCotizacion',[
-                    $clienteId,$direccionId,$direccionEnvioId,$telefonoId,$emailId,$medicoId,$productId,$cantidad,$tipoPago,$envioDomId
+                    'clienteId' => $clienteId,
+                    'direccionId' => $direccionId,
+                    'direccionEnvioId' => $direccionEnvioId,
+                    'telefonoId' => $telefonoId,
+                    'emailId' => $emailId,
+                    'medicoId' => $medicoId,
+                    'productId' => $productId,
+                    'cantidad' => $cantidad,
+                    'fpagoId' => $tipoPago,
+                    'envioDomId' => $envioDomId
                 ]));
                 $data[] = response()->json([
                     'valor'=> $response->faultCode() ==0 ? json_decode($response->value()->me['struct']['res']->me['string']) : false,
