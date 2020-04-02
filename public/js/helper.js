@@ -665,8 +665,8 @@ function SolicitarCotizacion() {
                        desceunto = retorno.valor.totalDescto.toFixed(2);
 
                        $("#total_pvp_"+(i+1)).html("$"+total_pvp*cantidad);
-                       $("#total_dscto_"+(i+1)).html("$"+desceunto);
-                       $("#precio_total_"+(i+1)).html("$"+total);
+                       $("#total_dscto_"+(i+1)).html("$"+desceunto*cantidad);
+                       $("#precio_total_"+(i+1)).html("$"+total*cantidad);
                        $("#unitario_"+(i+1)).html("$"+total_pvp);
                        
                        total_general+=parseFloat(total);
