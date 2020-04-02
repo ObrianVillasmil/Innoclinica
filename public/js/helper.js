@@ -714,7 +714,13 @@ function crearCotizacion() {
 
             msg = "";
             $.each(retorno.msg,function (i,j) {
-                msg+=j.original.mensaje+" ";
+                if(j.original.mensaje !=""){
+                    msg+=j.original.mensaje+" ";
+                }else{
+                    if(j.original.codigo === 0)
+                        msg= 'Su cotización se ha enviado con éxito, pronto nos contactaremos con usted, su número de cotización es el siguiente: '+j.original.valor.quoteId
+                }
+
             });
 
             titulo = "<span class='text-success'><i class='fa fa-exclamation-triangle'></i> Alerta</span>";
@@ -728,16 +734,9 @@ function crearCotizacion() {
         }
 
     },'json');
-    //peticion_ajax(data, '/cotizacion/crear_cotizacion', 'POST',false);
+
 }
 
-/*function render_chat() {
-    $.get('/bot/render', {}, function (retorno) {
-
-        $("#chat-bot").html(retorno);
-    });
-
-}*/
 
 function notificacionLogin(nombre,sistema){
     console.log("hola");
