@@ -53,17 +53,11 @@
                                     @if(isset($user->party->party_role))
                                         @if($user->party->party_role->role_type->role_type_id !== "ADMIN")
                                             <tr>
-                                                <td style="vertical-align: middle">{{$user->party->person->first_name}}</td>
+                                                @dump($user->party);
+                                                {{--<td style="vertical-align: middle">{{$user->party->person->first_name}}</td>
                                                 <td style="vertical-align: middle">{{$user->party->person->last_name}}</td>
                                                 <td style="vertical-align: middle">
                                                     {{$user->email}}
-                                                    {{--@foreach($user->party->party_contact_mech as $contact_mech)
-                                                        @if($contact_mech->contact_mech->contact_mech_type_id === "EMAIL_ADDRESS")
-                                                            <a style="text-decoration: none;" href="mailto:{{$contact_mech->contact_mech->info_string}}">
-                                                                {{$contact_mech->contact_mech->info_string}}
-                                                            </a>
-                                                        @endif
-                                                    @endforeach--}}
                                                 </td>
                                                 <td style="vertical-align: middle">
                                                     @foreach($user->party->party_contact_mech as $contact_mech)
@@ -85,7 +79,7 @@
                                                             <i class="fa fa-pencil-square-o"></i>
                                                         </a>
                                                     </div>
-                                                </td>
+                                                </td>--}}
                                             </tr>
                                         @endif
                                     @endif
