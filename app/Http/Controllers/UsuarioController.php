@@ -29,7 +29,8 @@ class UsuarioController extends Controller
            'url' => $request->path(),
            'titulo' => ['titulo'=>'Configuraciones','sub_titulo'=>'Usuarios'],
            'usuario' => getParty(session('party_id')),
-           'usuarios' => UserLogin::where('enabled',$request->estado == null ? "Y" : $request->estado)->orderBy('email','asc')->paginate(20),
+           'usuarios' => UserLogin::where('enabled',$request->estado == null ? "Y" : $request->estado)
+               ->orderBy('email','asc')->paginate(20),
            'estado' => $request->estado
        ]);
    }
