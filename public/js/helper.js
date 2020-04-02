@@ -711,15 +711,14 @@ function crearCotizacion() {
     $.post('/cotizacion/crear_cotizacion', data, function (retorno) {
 
         if(retorno.success){
-
+            console.log(retorno);
             msg = "";
             $.each(retorno.msg,function (i,j) {
-                console.log(i);
                 msg+=j.original.mensaje+" ";
             });
 
             titulo = "<span class='text-success'><i class='fa fa-exclamation-triangle'></i> Alerta</span>";
-            mensaje = "<div class='alert alert-danger'>"+msg+"</div>";
+            mensaje = "<div class='alert alert-success'>"+msg+"</div>";
             modal('modal_alert', mensaje,titulo ,true, '40%',false);
 
         }else{

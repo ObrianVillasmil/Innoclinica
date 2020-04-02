@@ -131,8 +131,6 @@ class CotizacionController extends Controller
                 $emailId = $contactMech->contact_mech->contact_mech_id;
         }
 
-        //dump('direccionId => '.$direccionId. 'direccionEnvioId => '.$direccionEnvioId. ' telefonoId=> '.$telefonoId.' emailId=> '.$emailId. ' medicoId=> '.$medicoId. ' envioDomId=> '.$envioDomId.' tipoPagoId=> '.$request->forma_pago);
-
         if($direccionId!="" && $direccionEnvioId!="" && $telefonoId!="" && $emailId!="" && $medicoId!="" && $envioDomId!="" && isset($request->forma_pago)){
             $success = true;
             $clienteId  = new Value($person->party_id);
@@ -145,7 +143,6 @@ class CotizacionController extends Controller
             $envioDomId = new value($envioDomId);
             $data=[];
             foreach($request->product as $pro) {
-                //dd(' clienteId=>'.$person->party_id. ' cantidad=>'.$pro['cantidad'].' productId=> '.$pro['product_id']);
 
                 $productId = new value($pro['product_id']);
                 $cantidad = new value($pro['cantidad']);
@@ -164,7 +161,7 @@ class CotizacionController extends Controller
                     $tipoPago,
                     $envioDomId
                 ]));
-                dump($response);
+
                 $data[] = response()->json([
                     'valor'=> $response->faultCode() ==0 ? json_decode($response->value()->me['struct']['res']->me['string']) : false,
                     'codigo' =>$response->faultCode(),
