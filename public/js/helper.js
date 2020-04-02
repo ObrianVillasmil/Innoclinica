@@ -709,9 +709,9 @@ function crearCotizacion() {
         tipo_envio : $("#tipo_envio").val()
     };
     $.post('/cotizacion/crear_cotizacion', data, function (retorno) {
-
+        console.log(retorno);
         if(retorno.success){
-            console.log(retorno);
+
             msg = "";
             $.each(retorno.msg,function (i,j) {
                 msg+=j.original.mensaje+" ";
