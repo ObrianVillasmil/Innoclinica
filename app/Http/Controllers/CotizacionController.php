@@ -162,7 +162,7 @@ class CotizacionController extends Controller
                     $tipoPago,
                     $envioDomId
                 ]));
-
+                dump($response);
                 $data[] = response()->json([
                     'valor'=> $response->faultCode() == 0 ? json_decode($response->value()->me['struct']['res']->me['string']) : false,
                     'codigo' =>$response->faultCode(),
