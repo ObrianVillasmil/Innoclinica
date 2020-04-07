@@ -52,12 +52,13 @@ class CotizacionController extends Controller
         $validar = Validator::make($request->all(), [
             'product_id' => 'required',
             'cantidad' => 'required',
-            'forma_pago' => 'required'
+            'forma_pago' => 'required',
+            'tipo_envio' => 'required'
         ], [
             'product_id.required' => "No se encontró el producto a cotizar",
             'cantidad.required' => "No se ingresó la cantidad de prodcutos a cotizar",
-            'forma_pago.required' => "No se ingresó la forma de pago"
-
+            'forma_pago.required' => "No se ingresó la forma de pago",
+            'tipo_envio.required' => "No se obtuvo el tipo de envío"
            ]);
 
         $success = false;
@@ -67,12 +68,12 @@ class CotizacionController extends Controller
             $productId = new Value($request->product_id);
             $cantidad = new Value($request->cantidad);
             $formaPago = new Value($request->forma_pago);
-
+            $tipoEnvio = new Value($request->tipo_envio);
 
             $client = new Client('http://innoclinica.evalua.com.ec:8081/ventas/control/xmlrpc');
             $client->setCredentials('tratamientos','Trat-2019');
             $response = $client->send(new ResqClientXmlrpc('cotizarProducto',[
-                $productId, $cantidad, $formaPago
+                $productId, $cantidad, $formaPago, $tipoEnvio
             ]));
 
             crear_log("cotizacion", session('party_id'), session('party_id'), 'El usuario '.$party->person->first_name." ".$party->person->last_name." está interezado en una cotización del producto ".getProducto($request->product_id)->product_name);

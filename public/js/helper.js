@@ -649,7 +649,8 @@ function SolicitarCotizacion() {
             datos = {
                 product_id : $(j).find('td.product_id').html(),
                 cantidad   : 1,
-                forma_pago : $("select#forma_pago").val()
+                forma_pago : $("select#forma_pago").val(),
+                tipo_envio : $("#tipo_envio").val()
             };
 
             $.get('/cotizacion/solicitar_cotizacion', datos, function (retorno) {
