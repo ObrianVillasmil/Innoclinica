@@ -61,7 +61,7 @@ class CotizacionController extends Controller
             'tipo_envio.required' => "No se obtuvo el tipo de envío"
            ]);
 
-        $success = false;
+        //$success = false;
 
         if (!$validar->fails()) {
             $party = getParty(session('party_id'));
@@ -69,7 +69,7 @@ class CotizacionController extends Controller
             $cantidad = new Value($request->cantidad);
             $formaPago = new Value($request->forma_pago);
             $tipoEnvio = new Value($request->tipo_envio);
-
+            dump($productId,$cantidad,$formaPago,$tipoEnvio);
             $client = new Client('http://innoclinica.evalua.com.ec:8081/ventas/control/xmlrpc');
             $client->setCredentials('tratamientos','Trat-2019');
             $response = $client->send(new ResqClientXmlrpc('cotizarProducto',[
