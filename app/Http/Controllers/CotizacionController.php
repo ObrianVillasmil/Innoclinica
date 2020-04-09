@@ -116,84 +116,91 @@ class CotizacionController extends Controller
         $telefonoId ="";
         $emailId = "";
         $tratamientSolicitado = TratamientoSolicitado::find($request->id_tratamiento_solicitado);
-        $medicoId = $tratamientSolicitado->id_doctor;
-        $envioDomId =$request->tipo_envio;
+        if(isset($tratamientSolicitado->id_doctor)){
 
-        foreach($person->party_contact_mech as $contactMech){
-            if($contactMech->contact_mech->contact_mech_type_id === "POSTAL_ADDRESS"){
-                $direccionId = $contactMech->contact_mech->contact_mech_id;
-                $direccionEnvioId= $contactMech->contact_mech->contact_mech_id;
+            $medicoId = $tratamientSolicitado->id_doctor;
+            $envioDomId =$request->tipo_envio;
+
+            foreach($person->party_contact_mech as $contactMech){
+                if($contactMech->contact_mech->contact_mech_type_id === "POSTAL_ADDRESS"){
+                    $direccionId = $contactMech->contact_mech->contact_mech_id;
+                    $direccionEnvioId= $contactMech->contact_mech->contact_mech_id;
+                }
+
+                if($contactMech->contact_mech->contact_mech_type_id === "TELECOM_NUMBER")
+                    $telefonoId = $contactMech->contact_mech->contact_mech_id;
+
+                if($contactMech->contact_mech->contact_mech_type_id === "EMAIL_ADDRESS")
+                    $emailId = $contactMech->contact_mech->contact_mech_id;
             }
 
-            if($contactMech->contact_mech->contact_mech_type_id === "TELECOM_NUMBER")
-                $telefonoId = $contactMech->contact_mech->contact_mech_id;
+            if($direccionId!="" && $direccionEnvioId!="" && $telefonoId!="" && $emailId!="" && $medicoId!="" && $envioDomId!="" && isset($request->forma_pago)){
+                $success = true;
+                $clienteId  = new Value($person->party_id);
+                $direccionId = new Value($direccionId);
+                $direccionEnvioId = new Value($direccionEnvioId);
+                $telefonoId = new value($telefonoId);
+                $emailId = new value($emailId);
+                $medicoId = new value($medicoId);
+                $tipoPago  = new value($request->forma_pago);
+                $envioDomId = new value($envioDomId);
+                $data=[];
+                foreach($request->product as $pro) {
 
-            if($contactMech->contact_mech->contact_mech_type_id === "EMAIL_ADDRESS")
-                $emailId = $contactMech->contact_mech->contact_mech_id;
-        }
+                    $productId = new value($pro['product_id']);
+                    $cantidad = new value($pro['cantidad']);
 
-        if($direccionId!="" && $direccionEnvioId!="" && $telefonoId!="" && $emailId!="" && $medicoId!="" && $envioDomId!="" && isset($request->forma_pago)){
-            $success = true;
-            $clienteId  = new Value($person->party_id);
-            $direccionId = new Value($direccionId);
-            $direccionEnvioId = new Value($direccionEnvioId);
-            $telefonoId = new value($telefonoId);
-            $emailId = new value($emailId);
-            $medicoId = new value($medicoId);
-            $tipoPago  = new value($request->forma_pago);
-            $envioDomId = new value($envioDomId);
-            $data=[];
-            foreach($request->product as $pro) {
+                    $client = new Client('http://innoclinica.evalua.com.ec:8081/ventas/control/xmlrpc');
+                    $client->setCredentials('tratamientos','Trat-2019');
+                    $response = $client->send(new ResqClientXmlrpc('crearCotizacion',[
+                        $clienteId,
+                        $direccionId,
+                        $direccionEnvioId,
+                        $telefonoId,
+                        $emailId,
+                        $medicoId,
+                        $productId,
+                        $cantidad,
+                        $tipoPago,
+                        $envioDomId
+                    ]));
+                    dump($response);
+                    $data[] = response()->json([
+                        'valor'=> $response->faultCode() == 0 ? json_decode($response->value()->me['struct']['res']->me['string']) : false,
+                        'codigo' =>$response->faultCode(),
+                        'mensaje' =>  $response->faultString()
+                    ]);
+                }
 
-                $productId = new value($pro['product_id']);
-                $cantidad = new value($pro['cantidad']);
+                $msg = $data;
 
-                $client = new Client('http://innoclinica.evalua.com.ec:8081/ventas/control/xmlrpc');
-                $client->setCredentials('tratamientos','Trat-2019');
-                $response = $client->send(new ResqClientXmlrpc('crearCotizacion',[
-                    $clienteId,
-                    $direccionId,
-                    $direccionEnvioId,
-                    $telefonoId,
-                    $emailId,
-                    $medicoId,
-                    $productId,
-                    $cantidad,
-                    $tipoPago,
-                    $envioDomId
-                ]));
-                dump($response);
-                $data[] = response()->json([
-                    'valor'=> $response->faultCode() == 0 ? json_decode($response->value()->me['struct']['res']->me['string']) : false,
-                    'codigo' =>$response->faultCode(),
-                    'mensaje' =>  $response->faultString()
-                ]);
+            }else{
+                $success = false;
+
+                if($direccionId=="")
+                    $msg = "El usuario no tiene una dirección de envío registrada en el sistema";
+
+                if($telefonoId=="")
+                    $msg = "El usuario no tiene un teléfono registrado en el sistema";
+
+                if($emailId=="")
+                    $msg = "El usuario no tiene un correo registrado en el sistema";
+
+                if($medicoId=="")
+                    $msg = "El tratamiento no tiene un doctor asignado";
+
+                if($envioDomId=="")
+                    $msg = "Seleccione el tipo de envío";
+
+                if(!isset($request->forma_pago))
+                    $msg = "Seleccione la forma de pago";
+
             }
-
-            $msg = $data;
-
         }else{
+            $msg = "El tratamiento no tiene un doctor asignado";
             $success = false;
-
-            if($direccionId=="")
-                $msg = "El usuario no tiene una dirección de envío registrada en el sistema";
-
-            if($telefonoId=="")
-                $msg = "El usuario no tiene un teléfono registrado en el sistema";
-
-            if($emailId=="")
-                $msg = "El usuario no tiene un correo registrado en el sistema";
-
-            if($medicoId=="")
-                $msg = "El tratamiento no tiene un doctor asignado";
-
-            if($envioDomId=="")
-                $msg = "Seleccione el tipo de envío";
-
-            if(!isset($request->forma_pago))
-                $msg = "Seleccione la forma de pago";
-
         }
+
         return[
             'success' =>$success,
             'msg' =>$msg
