@@ -68,7 +68,7 @@
                             <div class="col-sm-10">
                                 <select id="tipo_envio" name="tipo_envio" class="form-control" required>
                                     <option value="NO_SHIPPING@_NA_">Sin envío</option>
-                                    <option value="PROV@1592">Envío a provincia</option>
+                                    <option value="PROV@15952">Envío a provincia</option>
                                 </select>
                             </div>
                         </div>
