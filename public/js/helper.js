@@ -665,14 +665,14 @@ function SolicitarCotizacion() {
                        total_pvp = retorno.valor.totalPvp.toFixed(2);
                        descuento = retorno.valor.totalDescto.toFixed(2);
 
-                       $("#total_pvp_"+(i+1)).html("$"+total_pvp*cantidad);
-                       $("#total_dscto_"+(i+1)).html("$"+descuento*cantidad);
-                       $("#precio_total_"+(i+1)).html("$"+total*cantidad);
-                       $("#unitario_"+(i+1)).html("$"+total_pvp);
+                       $("#total_pvp_"+(i+1)).html("$"+parseFloat(total_pvp*cantidad).toFixed(2));
+                       $("#total_dscto_"+(i+1)).html("$"+parseFloat(descuento*cantidad).toFixed(2));
+                       $("#precio_total_"+(i+1)).html("$"+parseFloat(total*cantidad).toFixed(2));
+                       $("#unitario_"+(i+1)).html("$"+parseFloat(total_pvp).toFixed(2));
                        
-                       total_general+=parseFloat(total*cantidad);
-                       total_general_pvp+= parseFloat(total_pvp*cantidad);
-                       total_general_dscto+=parseFloat(descuento*cantidad);
+                       total_general+=parseFloat(total*parseFloat(cantidad).toFixed(2));
+                       total_general_pvp+= parseFloat(parseFloat(total_pvp*cantidad).toFixed(2));
+                       total_general_dscto+=parseFloat(parseFloat(descuento*cantidad).toFixed(2));
 
                        if($(".tr_prodcuto").length === (i+1)){
                            $("#total_general_pvp").html("$"+total_general_pvp.toFixed(2));
