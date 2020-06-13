@@ -22,10 +22,6 @@ class PreguntaRespuesta extends Model
         'fecha_registro'
     ];
 
-    public function etiqueta_pregunta_respuesta(){
-        return $this->hasMany('App\Modelos\EtiquetaPreguntaRespuesta','id_pregunta_respuesta');
-    }
-
     public function tema(){
         return $this->belongsTo('App\Modelos\ChatTema','id_chat_tema');
     }
